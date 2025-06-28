@@ -1176,26 +1176,38 @@
 
     <p id="mensagem-confirmacao" style="display: none; color: green;">✅ Mensagem enviada com sucesso!</p>
 
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-  
-    <script>
-        (function(){ 
-        emailjs.init("ngF3k1d0LY6YYN8Q_"); //public key aqui
-        })();
+    <script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
 
-        document.getElementById("contato-form").addEventListener("submit", function(event) {
-        event.preventDefault();
+<script type="text/javascript">
+  (function(){
+    // A função init agora é chamada através do objeto 'emailjs.browser'
+    emailjs.browser.init({
+      publicKey: "ngF3k1d0LY6YYN8Q_", // Sua Public Key aqui
+    });
+  })();
+</script>
 
-        emailjs.sendForm('service_y8vqduf', 'template_lyz92tf', this) // ID serviço e ID templete
-        .then(function() {
+<script>
+  document.getElementById("contato-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // A função sendForm também é chamada através do 'emailjs.browser'
+    emailjs.browser.sendForm('service_y8vqduf', 'template_lyz92tf', this) // ID do serviço e ID do template
+      .then(
+        () => {
+          console.log('SUCCESS!');
           document.getElementById("mensagem-confirmacao").style.display = "block";
           document.getElementById("contato-form").reset();
-        }, 
-        function(error) {
-        alert("❌ Erro ao enviar: " + JSON.stringify(error));
-        });
-      });
-    </script>
+        },
+        (error) => {
+          console.log('FAILED...', error);
+          alert("❌ Erro ao enviar: " + JSON.stringify(error));
+        }
+      );
+  });
+</script>
   
   </section>
 
